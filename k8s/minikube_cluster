@@ -1,0 +1,63 @@
+#Minikube Installation On Ubuntu Server
+
+Step 1: Update Your System
+
+Ensure your system is up to date by running:
+sudo apt update && sudo apt upgrade -y
+
+#Step 2: Install Dependencies
+Minikube requires a hypervisor to run Kubernetes. You can use KVM, VirtualBox, or other supported hypervisors. For simplicity, this guide uses VirtualBox.
+
+#1.Install VirtualBox:
+sudo apt install -y virtualbox virtualbox-ext-pack
+
+#2. Install conntrack package:
+Minikube requires the conntrack package, which you can install using:
+sudo apt install -y conntrack
+
+#Step 3: Install Minikube
+
+       1.Download the Minikube binary:
+Visit the Minikube releases page or use the following command to download the latest version:
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+
+ #    2. Install the Minikube binary:
+Move the downloaded binary to /usr/local/bin and make it executable:
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+# Step 4: Install kubectl
+kubectl is the command-line tool for interacting with Kubernetes clusters.
+
+  #  1. Download kubectl:
+curl -LO https://dl.k8s.io/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+ 
+  # 2.Install kubectl:
+Move the binary to /usr/local/bin and make it executable:
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+
+# Step 5. Create a Non-Root User for Minikube
+   1.Create a New User:
+sudo adduser minikube-user
+sudo usermod -aG sudo minikube-user
+
+  2. Switch to the New User:
+su - minikube-user
+
+# Step 6. Install Docker:
+sudo apt-get update
+sudo apt-get install -y docker.io
+sudo usermod -aG docker $USER
+newgrp docker
+
+# Start Minikube with the docker Driver:
+minikube start --driver=docker
+
+#Check the status of minikube by using below commands
+  minikube status
+  kubectl get nodes
+
+
+
+
+
